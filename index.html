@@ -1,29 +1,66 @@
-
 <!DOCTYPE html>
 <html>
 <head>
+<title>DENIS Official Meeting - 100 People</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DENIS MEETING</title>
 <script src='https://meet.jit.si/external_api.js'></script>
 <style>
-body{margin:0;background:#000}
-#meet{width:100vw;height:100vh}
+body{margin:0;background:#000;color:#fff;font-family:Arial;text-align:center}
+#header{background:#111;padding:15px}
+#header h1{margin:0;color:#00ff88}
+#header p{margin:5px;color:#aaa}
+#controls{padding:10px;background:#222}
+button{padding:12px 20px;margin:5px;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+.btn-mute{background:#ff4444;color:#fff}
+.btn-unmute{background:#00ff88;color:#000}
+.btn-share{background:#0088ff;color:#fff}
+#jitsi{width:100%;height:85vh}
 </style>
 </head>
 <body>
-<div id="meet"></div>
+<div id="header">
+<h1>DENIS Official Meeting</h1>
+<p>Room: DenisOfficial | Host: Denis | Max 100 People</p>
+</div>
+<div id="controls">
+<button class="btn-mute" onclick="muteAll()">🔇 MUTE ALL 100</button>
+<button class="btn-unmute" onclick="unmuteAll()">🔊 UNMUTE ALL</button>
+<button class="btn-share" onclick="shareLink()">📤 SHARE LINK</button>
+</div>
+<div id="jitsi"></div>
 <script>
-const domain="meet.jit.si";
-const options={
-roomName:"DenisOfficial",
-width:"100%",
-height:"100%",
-parentNode:document.querySelector('#meet'),
-configOverwrite:{startWithAudioMuted:false,startWithVideoMuted:false},
-interfaceConfigOverwrite:{TOOLBAR_BUTTONS:['microphone','camera','desktop','fullscreen','hangup','recording','chat','settings']},
-userInfo:{displayName:"Denis"}
+const domain = "meet.jit.si";
+const options = {
+    roomName: "DenisOfficial",
+    width: "100%",
+    height: "100%",
+    parentNode: document.querySelector('#jitsi'),
+    userInfo: { displayName: "Denis - HOST" },
+    configOverwrite: {
+        prejoinPageEnabled: false,
+        startWithAudioMuted: false,
+        startWithVideoMuted: false,
+        defaultLanguage: 'en',
+        disableInviteFunctions: false,
+    },
+    interfaceConfigOverwrite: {
+        SHOW_JITSI_WATERMARK: false,
+        SHOW_WATERMARK_FOR_GUESTS: false,
+        TOOLBAR_BUTTONS: ['microphone','camera','closedcaptions','desktop','fullscreen','fodeviceselection','hangup','profile','chat','recording','livestreaming','etherpad','sharedvideo','settings','raisehand','videoquality','filmstrip','invite','feedback','stats','shortcuts','tileview','videobackgroundblur','download','help','mute-everyone','mute-video-everyone','security']
+    }
 };
-const api=new JitsiMeetExternalAPI(domain,options);
+const api = new JitsiMeetExternalAPI(domain, options);
+api.addEventListener('videoConferenceJoined', () => {
+    api.executeCommand('setTileView', true);
+});
+
+function muteAll(){ api.executeCommand('muteEveryone'); alert('All 100 muted - You are Host Denis!'); }
+function unmuteAll(){ alert('Ask them to unmute - Jitsi security'); }
+function shareLink(){
+    const link = "https://048d.github.io/Denis/";
+    navigator.clipboard.writeText(link);
+    alert('Link copied: ' + link + '\nShare on WhatsApp to 100 people!');
+}
 </script>
 </body>
 </html>
